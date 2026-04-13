@@ -54,16 +54,19 @@
 
     <div id="step3" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
-        <h1>E-post</h1><p>Teavituste jaoks.</p>
+        <h1>E-post</h1><p>Teavituste saamiseks.</p>
         <input type="email" id="in-email" placeholder="sinu@email.ee">
         <button class="btn btn-main" onclick="to('step3','step4')">Jätka</button>
     </div>
 
     <div id="step4" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
-        <h1>Makseviis</h1><p>Lisa kaart.</p>
+        <h1>Makseviis</h1><p>Lisa pangakaart.</p>
         <input type="text" placeholder="Kaardi number: **** **** **** 4421">
-        <div style="display: flex; gap: 10px;"><input type="text" placeholder="KK / AA" style="flex: 1;"><input type="text" placeholder="CVC" style="flex: 1;"></div>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" placeholder="KK / AA" style="flex: 1;">
+            <input type="text" placeholder="CVC" style="flex: 1;">
+        </div>
         <button class="btn btn-main" onclick="initApp()" style="background:var(--success); margin-top:10px;">Kinnita ja alusta</button>
     </div>
 
@@ -123,10 +126,10 @@
         function to(old, nxt) { document.getElementById(old).classList.add('hidden'); document.getElementById(nxt).classList.remove('hidden'); }
         function initApp() {
             uName = document.getElementById('in-name').value;
-            uPlate1 = document.getElementById('in-plate1').value || 'ABC-123';
-            uPlate2 = document.getElementById('in-plate2').value;
-            let carHtml = `<option value="${uPlate1}">${uPlate1.toUpperCase()}</option>`;
-            if(uPlate2) { carHtml += `<option value="${uPlate2}">${uPlate2.toUpperCase()}</option>`; }
+            uPlate1 = (document.getElementById('in-plate1').value || 'ABC-123').toUpperCase();
+            uPlate2 = (document.getElementById('in-plate2').value).toUpperCase();
+            let carHtml = `<option value="${uPlate1}">${uPlate1}</option>`;
+            if(uPlate2) { carHtml += `<option value="${uPlate2}">${uPlate2}</option>`; }
             document.getElementById('car-select').innerHTML = carHtml;
             document.getElementById('user-greet').innerText = `Tere, ${uName}!`;
             to('step4', 'app');
@@ -140,10 +143,10 @@
         function selPr(el, n) { document.querySelectorAll('.pr').forEach(x=>x.classList.remove('active')); el.classList.add('active'); sProg=n; }
         function selDay(d, id) { sDay=d; document.getElementById('d1').classList.remove('selected'); document.getElementById('d2').classList.remove('selected'); document.getElementById(id).classList.add('selected'); }
         function selTi(el) { document.querySelectorAll('.time-btn').forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); sTime=el.innerText; }
-        function openMaps() { window.location.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(sAddr); }
+        function openMaps() { window.location.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(sAddr); }
         function doBook() {
             let selectedCar = document.getElementById('car-select').value;
-            document.getElementById('summary').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br><b>${sProg}</b><br>${sDay} kell ${sTime}<br>Auto: <b>${selectedCar.toUpperCase()}</b>`;
+            document.getElementById('summary').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br><b>${sProg}</b><br>${sDay} kell ${sTime}<br>Auto: <b>${selectedCar}</b>`;
             document.getElementById('ticket-layer').style.display = 'block';
             document.getElementById('ticket-layer').scrollTo(0,0);
         }
