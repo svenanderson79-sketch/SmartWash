@@ -46,7 +46,7 @@
 
     <div id="step2" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
-        <h1>Autod</h1><p>Sisesta kuni kaks autonumbrit.</p>
+        <h1>Autod</h1><p>Sisesta autonumbrid.</p>
         <input type="text" id="in-plate1" placeholder="Auto 1 number" style="text-transform: uppercase;">
         <input type="text" id="in-plate2" placeholder="Auto 2 number (valikuline)" style="text-transform: uppercase;">
         <button class="btn btn-main" onclick="to('step2','step3')">Jätka</button>
@@ -54,14 +54,14 @@
 
     <div id="step3" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
-        <h1>E-post</h1><p>Saadame Sulle kinnituse.</p>
+        <h1>E-post</h1><p>Teavituste jaoks.</p>
         <input type="email" id="in-email" placeholder="sinu@email.ee">
         <button class="btn btn-main" onclick="to('step3','step4')">Jätka</button>
     </div>
 
     <div id="step4" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
-        <h1>Makseviis</h1><p>Lisa pangakaart.</p>
+        <h1>Makseviis</h1><p>Lisa kaart.</p>
         <input type="text" placeholder="Kaardi number: **** **** **** 4421">
         <div style="display: flex; gap: 10px;"><input type="text" placeholder="KK / AA" style="flex: 1;"><input type="text" placeholder="CVC" style="flex: 1;"></div>
         <button class="btn btn-main" onclick="initApp()" style="background:var(--success); margin-top:10px;">Kinnita ja alusta</button>
@@ -73,12 +73,12 @@
             <h3>1. Vali asukoht</h3>
             <select id="city-sel" onchange="cityChange()"><option value="p">Pärnu</option><option value="t">Tallinn</option></select>
             <div id="p-loc">
-                <div class="card st active" onclick="selSt(this,'Ülejõe Circle K','Ehitajate tee 4')"><b>Ülejõe Circle K</b><span>Pärnu</span></div>
-                <div class="card st" onclick="selSt(this,'Papiniidu Circle K','Papiniidu 17')"><b>Papiniidu</b><span>Pärnu</span></div>
+                <div class="card st active" onclick="selSt(this,'Ülejõe Circle K','Ehitajate tee 4, Pärnu')"><b>Ülejõe Circle K</b><span>Pärnu</span></div>
+                <div class="card st" onclick="selSt(this,'Papiniidu Circle K','Papiniidu 17, Pärnu')"><b>Papiniidu</b><span>Pärnu</span></div>
             </div>
             <div id="t-loc" class="hidden">
-                <div class="card st" onclick="selSt(this,'Järvevana Circle K','Järvevana tee 2')"><b>Järvevana</b><span>Tallinn</span></div>
-                <div class="card st" onclick="selSt(this,'Kristiine Circle K','Endla 43')"><b>Kristiine</b><span>Tallinn</span></div>
+                <div class="card st" onclick="selSt(this,'Järvevana Circle K','Järvevana tee 2, Tallinn')"><b>Järvevana</b><span>Tallinn</span></div>
+                <div class="card st" onclick="selSt(this,'Kristiine Circle K','Endla 43, Tallinn')"><b>Kristiine</b><span>Tallinn</span></div>
             </div>
             
             <h3>2. Vali auto</h3>
@@ -108,7 +108,7 @@
             <div style="font-size:60px; margin:20px;">🧼</div>
             <div id="summary" style="line-height:1.6; font-size:16px;"></div>
             <div class="code-display">SW-99281</div>
-            <button class="btn btn-nav" onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(sAddr))">📍 Ava kaardil</button>
+            <button class="btn btn-nav" onclick="openMaps()">📍 Ava kaardil</button>
             <button class="btn" style="background:#eee; color:#333;" onclick="document.getElementById('ticket-layer').style.display='none'">Tagasi äppi</button>
             <div style="margin-top:40px; border-top:1px dashed #ccc; padding-top:30px;">
                 <button class="btn" style="background:#fff0f0; color:var(--danger); border:1px solid var(--danger); font-size:14px;" onclick="location.reload()">Tühista broneering</button>
@@ -119,17 +119,15 @@
     </div>
 
     <script>
-        let sName='Ülejõe Circle K', sAddr='Ehitajate tee 4', sProg='Premium Pro', sTime='14:00', sDay='Täna', uName='', uPlate1='', uPlate2='';
+        let sName='Ülejõe Circle K', sAddr='Ehitajate tee 4, Pärnu', sProg='Premium Pro', sTime='14:00', sDay='Täna', uName='', uPlate1='', uPlate2='';
         function to(old, nxt) { document.getElementById(old).classList.add('hidden'); document.getElementById(nxt).classList.remove('hidden'); }
         function initApp() {
             uName = document.getElementById('in-name').value;
             uPlate1 = document.getElementById('in-plate1').value || 'ABC-123';
             uPlate2 = document.getElementById('in-plate2').value;
-            
             let carHtml = `<option value="${uPlate1}">${uPlate1.toUpperCase()}</option>`;
             if(uPlate2) { carHtml += `<option value="${uPlate2}">${uPlate2.toUpperCase()}</option>`; }
             document.getElementById('car-select').innerHTML = carHtml;
-            
             document.getElementById('user-greet').innerText = `Tere, ${uName}!`;
             to('step4', 'app');
         }
@@ -142,6 +140,7 @@
         function selPr(el, n) { document.querySelectorAll('.pr').forEach(x=>x.classList.remove('active')); el.classList.add('active'); sProg=n; }
         function selDay(d, id) { sDay=d; document.getElementById('d1').classList.remove('selected'); document.getElementById('d2').classList.remove('selected'); document.getElementById(id).classList.add('selected'); }
         function selTi(el) { document.querySelectorAll('.time-btn').forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); sTime=el.innerText; }
+        function openMaps() { window.location.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(sAddr); }
         function doBook() {
             let selectedCar = document.getElementById('car-select').value;
             document.getElementById('summary').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br><b>${sProg}</b><br>${sDay} kell ${sTime}<br>Auto: <b>${selectedCar.toUpperCase()}</b>`;
