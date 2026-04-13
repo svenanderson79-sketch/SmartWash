@@ -9,96 +9,159 @@
         body { margin: 0; font-family: -apple-system, sans-serif; background: var(--bg); color: #333; -webkit-tap-highlight-color: transparent; }
         .setup-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: flex; flex-direction: column; padding: 40px 30px; box-sizing: border-box; }
         .hidden { display: none !important; }
+        input, select { width: 100%; padding: 18px; border-radius: 15px; border: 2px solid #eee; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; background: white; }
         .btn { width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; }
         .btn-main { background: var(--primary); color: white; }
         .header { background: linear-gradient(135deg, var(--primary), #ff8c00); color: white; padding: 45px 20px 25px; border-radius: 0 0 25px 25px; text-align: center; }
-        .content { padding: 20px; }
-        .card { background: white; border: 1px solid #ddd; padding: 15px; border-radius: 15px; margin-bottom: 10px; cursor: pointer; }
-        .card.active { border-color: var(--primary); background: #fff9f5; }
+        .content { padding: 20px; padding-bottom: 100px; }
+        .card { background: white; border: 1px solid #ddd; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .card.active { border-color: var(--primary); background: #fff9f5; box-shadow: 0 4px 10px rgba(255,107,0,0.1); }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .day-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .time-btn, .day-btn { background: white; border: 1px solid #ddd; padding: 12px 5px; text-align: center; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .selected { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; }
         #ticket { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 3000; padding: 40px 25px; box-sizing: border-box; text-align: center; overflow-y: auto; }
-        input, select { width: 100%; padding: 18px; border-radius: 15px; border: 2px solid #eee; margin-bottom: 15px; box-sizing: border-box; font-size: 16px; }
+        .code-box { border: 3px dashed var(--primary); padding: 25px; border-radius: 25px; background: #fff9f5; margin: 20px 0; font-size: 32px; font-weight: bold; color: var(--primary); letter-spacing: 4px; }
     </style>
 </head>
 <body>
 
     <div id="step1" class="setup-screen hidden">
         <h1>Tere!</h1>
-        <p>Sisesta oma nimi.</p>
-        <input type="text" id="setup-name" placeholder="Sinu nimi">
-        <button class="btn btn-main" onclick="saveName()">Jätka</button>
+        <p>Alustame seadistamist. Mis on Sinu nimi?</p>
+        <input type="text" id="setup-name" placeholder="Sinu nimi" value="Sven">
+        <button class="btn btn-main" onclick="saveInitialData()">Alusta</button>
     </div>
 
     <div id="main-app" class="hidden">
-        <div class="header"><h2 id="greet">Tere!</h2></div>
+        <div class="header">
+            <span id="greeting" style="font-size: 18px; font-weight: bold;">Tere!</span>
+            <h2 style="margin:0">SmartWash Pro</h2>
+        </div>
         <div class="content">
-            <h3>Vali asukoht</h3>
-            <div class="card active" id="st-info">Pärnu Ülejõe Circle K</div>
-            <h3>Vali auto</h3>
-            <select id="car-select"><option>123 ABC</option><option>999 XYZ</option></select>
-            <button class="btn btn-main" onclick="makeBooking()">Broneeri 18€</button>
-            <button class="btn" style="background:#eee; margin-top:20px;" onclick="resetApp()">Logi välja / Nulli</button>
+            <h3>1. Vali asukoht</h3>
+            <select id="city-select" onchange="switchCity()">
+                <option value="p">Pärnu</option>
+                <option value="t">Tallinn</option>
+            </select>
+            
+            <div id="p-list">
+                <div class="card st active" onclick="pickSt(this, 'Pärnu Ülejõe Circle K', 'Ehitajate tee 4, Pärnu')"><b>Ülejõe Circle K</b><span>Pärnu</span></div>
+                <div class="card st" onclick="pickSt(this, 'Pärnu Papiniidu Circle K', 'Papiniidu 17, Pärnu')"><b>Papiniidu Circle K</b><span>Pärnu</span></div>
+            </div>
+            
+            <div id="t-list" class="hidden">
+                <div class="card st" onclick="pickSt(this, 'Järvevana Circle K', 'Järvevana tee 2, Tallinn')"><b>Järvevana Circle K</b><span>Tallinn</span></div>
+                <div class="card st" onclick="pickSt(this, 'Kristiine Circle K', 'Endla 43, Tallinn')"><b>Kristiine Circle K</b><span>Tallinn</span></div>
+            </div>
+
+            <h3>2. Programm & Aeg</h3>
+            <div class="card pr active" onclick="pickPr(this, 'Premium Pro', 18)"><b>Premium Pro</b><span>18€</span></div>
+            <div class="card pr" onclick="pickPr(this, 'Standard', 12)"><b>Standard</b><span>12€</span></div>
+
+            <div class="day-grid" style="margin-top:15px;">
+                <div id="d1" class="day-btn selected" onclick="pickDay('Täna', 'd1')">Täna</div>
+                <div id="d2" class="day-btn" onclick="pickDay('Homme', 'd2')">Homme</div>
+            </div>
+
+            <div class="grid">
+                <div class="ti time-btn selected" onclick="pickTi(this, '12:00')">12:00</div>
+                <div class="ti time-btn" onclick="pickTi(this, '14:00')">14:00</div>
+                <div class="ti time-btn" onclick="pickTi(this, '16:00')">16:00</div>
+            </div>
+
+            <button class="btn btn-main" onclick="makeBooking()">Broneeri ja maksa</button>
+            <button class="btn" style="background:none; color:#888; font-size:12px;" onclick="resetApp()">Nulli seaded</button>
         </div>
     </div>
 
     <div id="ticket">
-        <h1>Pilet kinnitatud!</h1>
-        <div style="font-size: 50px;">🧼</div>
-        <p id="ticket-det"></p>
-        <button class="btn btn-main" style="background:#007aff" onclick="startNav()">📍 Ava navigatsioon</button>
-        <button class="btn" onclick="closeTicket()">Tagasi äppi</button>
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-        <button class="btn" style="color:var(--danger); background:none;" onclick="cancelBooking()">Tühista broneering (50% tagastus)</button>
+        <h1>Kinnitatud!</h1>
+        <div style="font-size: 60px; margin: 20px;">🧼</div>
+        <p id="res-info" style="font-size: 18px; line-height: 1.5;"></p>
+        <div class="code-box">SW-99281</div>
+        <button class="btn btn-main" style="background:#007aff" onclick="startNav()">📍 Ava teekond kaardil</button>
+        <button class="btn" style="background:#eee" onclick="closeTicket()">Tagasi äppi</button>
+        <button class="btn" style="color:var(--danger); background:none; margin-top:20px;" onclick="cancelBooking()">Tühista broneering</button>
     </div>
 
     <script>
-        // 1. KONTROLLI MÄLU ÄPI AVAMISEL
+        let sName='Pärnu Ülejõe Circle K', sAddr='Ehitajate tee 4, Pärnu', sProg='Premium Pro', sTime='12:00', sDay='Täna';
+
         window.onload = function() {
             if (localStorage.getItem('userName')) {
                 showMain();
-                if (localStorage.getItem('hasBooking')) showTicket(false);
+                if (localStorage.getItem('hasBooking')) showTicket();
             } else {
                 document.getElementById('step1').classList.remove('hidden');
             }
         };
 
-        function saveName() {
-            const val = document.getElementById('setup-name').value;
-            if(!val) return;
-            localStorage.setItem('userName', val);
+        function saveInitialData() {
+            const name = document.getElementById('setup-name').value;
+            if(!name) return alert("Sisesta nimi!");
+            localStorage.setItem('userName', name);
             showMain();
         }
 
         function showMain() {
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-            document.getElementById('greet').innerText = "Tere, " + localStorage.getItem('userName') + "!";
+            document.getElementById('step1').className = 'setup-screen hidden';
+            document.getElementById('main-app').className = '';
+            document.getElementById('greeting').innerText = `Tere, ${localStorage.getItem('userName')}!`;
+        }
+
+        function switchCity() {
+            const city = document.getElementById('city-select').value;
+            document.getElementById('p-list').className = (city === 'p' ? '' : 'hidden');
+            document.getElementById('t-list').className = (city === 't' ? '' : 'hidden');
+        }
+
+        function pickSt(el, n, a) {
+            document.querySelectorAll('.st').forEach(c => c.classList.remove('active'));
+            el.classList.add('active'); sName = n; sAddr = a;
+        }
+
+        function pickPr(el, n, p) {
+            document.querySelectorAll('.pr').forEach(c => c.classList.remove('active'));
+            el.classList.add('active'); sProg = n;
+        }
+
+        function pickDay(d, id) {
+            sDay = d;
+            document.getElementById('d1').classList.remove('selected');
+            document.getElementById('d2').classList.remove('selected');
+            document.getElementById(id).classList.add('selected');
+        }
+
+        function pickTi(el, t) {
+            document.querySelectorAll('.ti').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected'); sTime = t;
         }
 
         function makeBooking() {
             localStorage.setItem('hasBooking', 'true');
-            showTicket(true);
+            localStorage.setItem('lastDetails', `${sName}|${sAddr}|${sProg}|${sDay}|${sTime}`);
+            showTicket();
         }
 
-        function showTicket(isNew) {
-            document.getElementById('ticket-det').innerText = "Sinu broneering jaamas: \n" + document.getElementById('st-info').innerText;
+        function showTicket() {
+            const data = localStorage.getItem('lastDetails') ? localStorage.getItem('lastDetails').split('|') : [sName, sAddr, sProg, sDay, sTime];
+            document.getElementById('res-info').innerHTML = `<b>${data[0]}</b><br>${data[1]}<br><br>${data[2]}<br>${data[3]} kell ${data[4]}`;
             document.getElementById('ticket').style.display = 'block';
         }
 
-        function closeTicket() {
-            document.getElementById('ticket').style.display = 'none';
-        }
+        function closeTicket() { document.getElementById('ticket').style.display = 'none'; }
 
         function cancelBooking() {
-            if(confirm("Kas soovid tühistada? Tagastame 50% summast.")) {
+            if(confirm("Tühistada broneering?")) {
                 localStorage.removeItem('hasBooking');
                 location.reload();
             }
         }
 
         function startNav() {
-            // MUUDATUS: Avab uues aknas, et äpp ei sulguks
-            const addr = "Ehitajate tee 4, Pärnu";
-            window.open("https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr), '_blank');
+            const data = localStorage.getItem('lastDetails').split('|');
+            window.open("http://maps.google.com/?q=" + encodeURIComponent(data[1]), '_blank');
         }
 
         function resetApp() {
