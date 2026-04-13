@@ -39,15 +39,16 @@
 
     <div id="step1" class="screen">
         <div class="progress"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-        <h1>Tere tulemast!</h1><p>Kuidas on Sinu nimi?</p>
+        <h1>Tere!</h1><p>Kuidas on Sinu nimi?</p>
         <input type="text" id="in-name" placeholder="Nimi" value="Sven">
         <button class="btn btn-main" onclick="to('step1','step2')">Alusta</button>
     </div>
 
     <div id="step2" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
-        <h1>Auto number</h1><p>Sisesta autonumber.</p>
-        <input type="text" id="in-plate" placeholder="123 ABC" style="text-transform: uppercase;">
+        <h1>Autod</h1><p>Sisesta kuni kaks autonumbrit.</p>
+        <input type="text" id="in-plate1" placeholder="Auto 1 number" style="text-transform: uppercase;">
+        <input type="text" id="in-plate2" placeholder="Auto 2 number (valikuline)" style="text-transform: uppercase;">
         <button class="btn btn-main" onclick="to('step2','step3')">Jätka</button>
     </div>
 
@@ -79,10 +80,15 @@
                 <div class="card st" onclick="selSt(this,'Järvevana Circle K','Järvevana tee 2')"><b>Järvevana</b><span>Tallinn</span></div>
                 <div class="card st" onclick="selSt(this,'Kristiine Circle K','Endla 43')"><b>Kristiine</b><span>Tallinn</span></div>
             </div>
-            <h3>2. Programm</h3>
+            
+            <h3>2. Vali auto</h3>
+            <select id="car-select"></select>
+
+            <h3>3. Programm</h3>
             <div class="card pr active" onclick="selPr(this,'Premium Pro')"><b>Premium Pro</b><span>18€</span></div>
             <div class="card pr" onclick="selPr(this,'Standard')"><b>Standard</b><span>12€</span></div>
-            <h3>3. Vali aeg</h3>
+            
+            <h3>4. Vali aeg</h3>
             <div class="day-grid">
                 <div id="d1" class="day-btn selected" onclick="selDay('Täna','d1')">Täna</div>
                 <div id="d2" class="day-btn" onclick="selDay('Homme','d2')">Homme</div>
@@ -113,11 +119,17 @@
     </div>
 
     <script>
-        let sName='Ülejõe Circle K', sAddr='Ehitajate tee 4', sProg='Premium Pro', sTime='14:00', sDay='Täna', uName='', uPlate='';
+        let sName='Ülejõe Circle K', sAddr='Ehitajate tee 4', sProg='Premium Pro', sTime='14:00', sDay='Täna', uName='', uPlate1='', uPlate2='';
         function to(old, nxt) { document.getElementById(old).classList.add('hidden'); document.getElementById(nxt).classList.remove('hidden'); }
         function initApp() {
             uName = document.getElementById('in-name').value;
-            uPlate = document.getElementById('in-plate').value || 'ABC-123';
+            uPlate1 = document.getElementById('in-plate1').value || 'ABC-123';
+            uPlate2 = document.getElementById('in-plate2').value;
+            
+            let carHtml = `<option value="${uPlate1}">${uPlate1.toUpperCase()}</option>`;
+            if(uPlate2) { carHtml += `<option value="${uPlate2}">${uPlate2.toUpperCase()}</option>`; }
+            document.getElementById('car-select').innerHTML = carHtml;
+            
             document.getElementById('user-greet').innerText = `Tere, ${uName}!`;
             to('step4', 'app');
         }
@@ -131,7 +143,8 @@
         function selDay(d, id) { sDay=d; document.getElementById('d1').classList.remove('selected'); document.getElementById('d2').classList.remove('selected'); document.getElementById(id).classList.add('selected'); }
         function selTi(el) { document.querySelectorAll('.time-btn').forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); sTime=el.innerText; }
         function doBook() {
-            document.getElementById('summary').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br><b>${sProg}</b><br>${sDay} kell ${sTime}<br>Auto: <b>${uPlate.toUpperCase()}</b>`;
+            let selectedCar = document.getElementById('car-select').value;
+            document.getElementById('summary').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br><b>${sProg}</b><br>${sDay} kell ${sTime}<br>Auto: <b>${selectedCar.toUpperCase()}</b>`;
             document.getElementById('ticket-layer').style.display = 'block';
             document.getElementById('ticket-layer').scrollTo(0,0);
         }
