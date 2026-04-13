@@ -4,62 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SmartWash Pro</title>
-    
     <link rel="icon" href="https://emojicdn.elk.sh/🧼">
     <link rel="apple-touch-icon" href="https://emojicdn.elk.sh/🧼">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <style>
         :root { --primary: #ff6b00; --bg: #f8f9fa; --danger: #ff3b30; --success: #34c759; }
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: #333; overflow: hidden; -webkit-font-smoothing: antialiased; }
-        
-        /* Ekraanide haldus */
+        body { margin: 0; font-family: -apple-system, sans-serif; background: var(--bg); color: #333; overflow: hidden; -webkit-font-smoothing: antialiased; }
         .screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: flex; flex-direction: column; padding: 30px; box-sizing: border-box; overflow-y: auto; }
         .hidden { display: none !important; }
-        
-        /* Progressi täpid */
         .progress { display: flex; gap: 8px; margin-bottom: 25px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #eee; }
         .dot.active { background: var(--primary); width: 22px; border-radius: 10px; }
-        
-        /* Sisendväljad ja nupud */
-        h1 { font-size: 26px; margin: 0 0 10px 0; font-weight: 800; }
-        p { color: #666; margin-bottom: 25px; font-size: 15px; line-height: 1.4; }
+        h1 { font-size: 26px; margin: 0 0 10px 0; }
+        p { color: #666; margin-bottom: 25px; font-size: 15px; }
         input, select { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid #eee; font-size: 16px; margin-bottom: 12px; box-sizing: border-box; -webkit-appearance: none; background: white; outline: none; }
-        input:focus { border-color: var(--primary); }
-        
-        .btn { width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: bold; border: none; cursor: pointer; text-align: center; display: block; text-decoration: none; box-sizing: border-box; transition: transform 0.1s; }
-        .btn:active { transform: scale(0.98); }
+        .btn { width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: bold; border: none; cursor: pointer; text-align: center; display: block; text-decoration: none; box-sizing: border-box; }
         .btn-main { background: var(--primary); color: white; }
         .btn-nav { background: #007aff; color: white; margin-bottom: 12px; }
-        
-        /* Rakenduse päis */
-        .header { background: linear-gradient(135deg, var(--primary), #ff8c00); color: white; padding: 50px 20px 25px; text-align: center; box-shadow: 0 4px 12px rgba(255,107,0,0.2); }
-        .content { padding: 20px; padding-bottom: 120px; }
-        
-        /* Kaardid ja valikud */
-        h3 { font-size: 12px; text-transform: uppercase; color: #888; letter-spacing: 1px; margin: 20px 0 10px; }
+        .header { background: linear-gradient(135deg, var(--primary), #ff8c00); color: white; padding: 50px 20px 25px; text-align: center; }
+        .content { padding: 20px; padding-bottom: 100px; }
+        h3 { font-size: 12px; text-transform: uppercase; color: #888; margin: 20px 0 10px; }
         .card { background: white; border: 1px solid #ddd; padding: 16px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .card.active { border-color: var(--primary); background: #fff9f5; border-width: 2px; }
-        
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
-        .time-btn { background: white; border: 1px solid #ddd; padding: 14px 5px; text-align: center; border-radius: 14px; font-weight: bold; font-size: 14px; }
+        .time-btn { background: white; border: 1px solid #ddd; padding: 14px 5px; text-align: center; border-radius: 14px; font-weight: bold; }
         .time-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
-
-        /* PILETI KIHT - FIX: Keritavus tagatud */
-        #ticket-layer { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #f2f2f7; z-index: 5000; display: none; 
-            overflow-y: scroll !important; -webkit-overflow-scrolling: touch;
-            padding: 20px; box-sizing: border-box;
-        }
-        .receipt-card { 
-            background: white; padding: 30px 20px; border-radius: 28px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
-            text-align: center; width: 100%; box-sizing: border-box;
-            margin-bottom: 40px; 
-        }
+        #ticket-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f2f2f7; z-index: 5000; display: none; overflow-y: scroll !important; -webkit-overflow-scrolling: touch; padding: 20px; box-sizing: border-box; }
+        .receipt-card { background: white; padding: 30px 20px; border-radius: 28px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; margin-bottom: 40px; }
         .code-display { border: 2px dashed var(--primary); padding: 18px; border-radius: 18px; background: #fff9f5; margin: 20px 0; font-size: 30px; font-weight: 800; color: var(--primary); letter-spacing: 3px; }
     </style>
 </head>
@@ -67,51 +39,38 @@
 
     <div id="step1" class="screen">
         <div class="progress"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-        <h1>Tere tulemast!</h1>
-        <p>SmartWash Pro muudab Sinu autopesu kiiremaks. Kuidas on Sinu nimi?</p>
-        <input type="text" id="in-name" placeholder="Eesnimi" value="Sven">
+        <h1>Tere tulemast!</h1><p>Kuidas on Sinu nimi?</p>
+        <input type="text" id="in-name" placeholder="Nimi" value="Sven">
         <button class="btn btn-main" onclick="to('step1','step2')">Alusta</button>
     </div>
 
     <div id="step2" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
-        <h1>Auto number</h1>
-        <p>Sisesta autonumber, millega pesulasse tuled.</p>
+        <h1>Auto number</h1><p>Sisesta autonumber.</p>
         <input type="text" id="in-plate" placeholder="123 ABC" style="text-transform: uppercase;">
         <button class="btn btn-main" onclick="to('step2','step3')">Jätka</button>
     </div>
 
     <div id="step3" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
-        <h1>E-post</h1>
-        <p>Saadame Sulle kinnituse ja arve.</p>
+        <h1>E-post</h1><p>Saadame Sulle kinnituse.</p>
         <input type="email" id="in-email" placeholder="sinu@email.ee">
         <button class="btn btn-main" onclick="to('step3','step4')">Jätka</button>
     </div>
 
     <div id="step4" class="screen hidden">
         <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
-        <h1>Makseviis</h1>
-        <p>Lisa pangakaart turvalisteks makseteks.</p>
+        <h1>Makseviis</h1><p>Lisa pangakaart.</p>
         <input type="text" placeholder="Kaardi number: **** **** **** 4421">
-        <div style="display: flex; gap: 10px;">
-            <input type="text" placeholder="KK / AA" style="flex: 1;">
-            <input type="text" placeholder="CVC" style="flex: 1;">
-        </div>
+        <div style="display: flex; gap: 10px;"><input type="text" placeholder="KK / AA" style="flex: 1;"><input type="text" placeholder="CVC" style="flex: 1;"></div>
         <button class="btn btn-main" onclick="initApp()" style="background:var(--success); margin-top:10px;">Kinnita ja alusta</button>
     </div>
 
     <div id="app" class="hidden" style="position:fixed; width:100%; height:100%; overflow-y:auto;">
-        <div class="header">
-            <div id="user-greet" style="font-size:14px; opacity:0.9">Tere!</div>
-            <h2 style="margin:5px 0 0 0; font-size:24px;">SmartWash Pro</h2>
-        </div>
+        <div class="header"><div id="user-greet">Tere!</div><h2 style="margin:5px 0 0 0;">SmartWash Pro</h2></div>
         <div class="content">
             <h3>1. Vali asukoht</h3>
-            <select id="city-sel" onchange="cityChange()">
-                <option value="p">Pärnu</option>
-                <option value="t">Tallinn</option>
-            </select>
+            <select id="city-sel" onchange="cityChange()"><option value="p">Pärnu</option><option value="t">Tallinn</option></select>
             <div id="p-loc">
                 <div class="card st active" onclick="selSt(this,'Ülejõe Circle K','Ehitajate tee 4')"><b>Ülejõe Circle K</b><span>Pärnu</span></div>
                 <div class="card st" onclick="selSt(this,'Papiniidu Circle K','Papiniidu 17')"><b>Papiniidu</b><span>Pärnu</span></div>
@@ -120,16 +79,16 @@
                 <div class="card st" onclick="selSt(this,'Järvevana Circle K','Järvevana tee 2')"><b>Järvevana</b><span>Tallinn</span></div>
                 <div class="card st" onclick="selSt(this,'Kristiine Circle K','Endla 43')"><b>Kristiine</b><span>Tallinn</span></div>
             </div>
-
-            <h3>2. Programm & Aeg</h3>
-            <div class="card pr active" onclick="selPr(this,'Premium Pro')"><b>Premium Pro</b><span>18€</span></div>
+            <h3>2. Programm</h3>
+            <div class="card pr active" onclick="selPr(this,'Premium Pro',18)"><b>Premium Pro</b><span>18€</span></div>
+            <div class="card pr" onclick="selPr(this,'Standard',12)"><b>Standard</b><span>12€</span></div>
+            <h3>3. Vali aeg</h3>
             <div class="grid">
                 <div class="time-btn" onclick="selTi(this)">10:00</div>
                 <div class="time-btn selected" onclick="selTi(this)">14:00</div>
                 <div class="time-btn" onclick="selTi(this)">17:00</div>
             </div>
-
-            <button class="btn btn-main" style="margin-top:30px; box-shadow: 0 8px 20px rgba(255,107,0,0.3);" onclick="doBook()">Broneeri ja maksa</button>
+            <button class="btn btn-main" style="margin-top:30px;" onclick="doBook()">Broneeri ja maksa</button>
         </div>
     </div>
 
@@ -137,43 +96,35 @@
         <div class="receipt-card">
             <h1 style="color:var(--success)">Kinnitatud!</h1>
             <div style="font-size:60px; margin:20px;">🧼</div>
-            <div id="summary" style="line-height:1.6; font-size:16px; margin-bottom:20px;"></div>
+            <div id="summary" style="line-height:1.6; font-size:16px;"></div>
             <div class="code-display">SW-99281</div>
-            
-            <button class="btn btn-nav" onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(sAddr))">📍 Ava teekond kaardil</button>
+            <button class="btn btn-nav" onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(sAddr))">📍 Ava kaardil</button>
             <button class="btn" style="background:#eee; color:#333;" onclick="document.getElementById('ticket-layer').style.display='none'">Tagasi äppi</button>
-            
             <div style="margin-top:40px; border-top:1px dashed #ccc; padding-top:30px;">
-                <p style="font-size:13px; color:#888;">Vajadusel tühista broneering siit:</p>
                 <button class="btn" style="background:#fff0f0; color:var(--danger); border:1px solid var(--danger); font-size:14px;" onclick="location.reload()">Tühista broneering</button>
-                <p style="font-size:11px; color:var(--danger); font-weight:bold; margin-top:8px;">Tagasimakse: 9.00€ (50%)</p>
+                <p style="font-size:11px; color:var(--danger); font-weight:bold; margin-top:8px;">Tagasimakse: 50%</p>
             </div>
         </div>
-        <div style="height:50px;"></div> </div>
+        <div style="height:50px;"></div>
+    </div>
 
     <script>
-        let sName='Ülejõe Circle K', sAddr='Ehitajate tee 4', sProg='Premium Pro', sTime='14:00';
-        let uName='', uPlate='';
-
-        function to(oldId, newId) { document.getElementById(oldId).classList.add('hidden'); document.getElementById(newId).classList.remove('hidden'); }
-        
+        let sName='Ülejõe Circle K', sAddr='Ehitajate tee 4', sProg='Premium Pro', sTime='14:00', uName='', uPlate='';
+        function to(old, nxt) { document.getElementById(old).classList.add('hidden'); document.getElementById(nxt).classList.remove('hidden'); }
         function initApp() {
             uName = document.getElementById('in-name').value;
             uPlate = document.getElementById('in-plate').value || 'ABC-123';
             document.getElementById('user-greet').innerText = `Tere, ${uName}!`;
             to('step4', 'app');
         }
-
         function cityChange() {
             const c = document.getElementById('city-sel').value;
             document.getElementById('p-loc').classList.toggle('hidden', c!=='p');
             document.getElementById('t-loc').classList.toggle('hidden', c!=='t');
         }
-
         function selSt(el, n, a) { document.querySelectorAll('.st').forEach(x=>x.classList.remove('active')); el.classList.add('active'); sName=n; sAddr=a; }
-        function selPr(el, n) { document.querySelectorAll('.pr').forEach(x=>x.classList.remove('active')); el.classList.add('active'); sProg=n; }
+        function selPr(el, n, p) { document.querySelectorAll('.pr').forEach(x=>x.classList.remove('active')); el.classList.add('active'); sProg=n; }
         function selTi(el) { document.querySelectorAll('.time-btn').forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); sTime=el.innerText; }
-
         function doBook() {
             document.getElementById('summary').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br><b>${sProg}</b><br>Täna kell ${sTime}<br>Auto: <b>${uPlate.toUpperCase()}</b>`;
             document.getElementById('ticket-layer').style.display = 'block';
