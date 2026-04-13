@@ -76,12 +76,12 @@
             <h3>1. Vali asukoht</h3>
             <select id="city-sel" onchange="cityChange()"><option value="p">Pärnu</option><option value="t">Tallinn</option></select>
             <div id="p-loc">
-                <div class="card st active" onclick="selSt(this,'Ülejõe Circle K','Ehitajate tee 4, Pärnu')"><b>Ülejõe Circle K</b><span>Pärnu</span></div>
-                <div class="card st" onclick="selSt(this,'Papiniidu Circle K','Papiniidu 17, Pärnu')"><b>Papiniidu</b><span>Pärnu</span></div>
+                <div class="card st active" onclick="selSt(this,'Ülejõe Circle K','Circle K Ülejõe, Pärnu')"><b>Ülejõe Circle K</b><span>Pärnu</span></div>
+                <div class="card st" onclick="selSt(this,'Papiniidu Circle K','Circle K Papiniidu, Pärnu')"><b>Papiniidu</b><span>Pärnu</span></div>
             </div>
             <div id="t-loc" class="hidden">
-                <div class="card st" onclick="selSt(this,'Järvevana Circle K','Järvevana tee 2, Tallinn')"><b>Järvevana</b><span>Tallinn</span></div>
-                <div class="card st" onclick="selSt(this,'Kristiine Circle K','Endla 43, Tallinn')"><b>Kristiine</b><span>Tallinn</span></div>
+                <div class="card st" onclick="selSt(this,'Järvevana Circle K','Circle K Järvevana, Tallinn')"><b>Järvevana</b><span>Tallinn</span></div>
+                <div class="card st" onclick="selSt(this,'Kristiine Circle K','Circle K Kristiine, Tallinn')"><b>Kristiine</b><span>Tallinn</span></div>
             </div>
             
             <h3>2. Vali auto</h3>
@@ -122,7 +122,7 @@
     </div>
 
     <script>
-        let sName='Ülejõe Circle K', sAddr='Ehitajate tee 4, Pärnu', sProg='Premium Pro', sTime='14:00', sDay='Täna', uName='', uPlate1='', uPlate2='';
+        let sName='Ülejõe Circle K', sAddr='Circle K Ülejõe, Pärnu', sProg='Premium Pro', sTime='14:00', sDay='Täna', uName='', uPlate1='', uPlate2='';
         function to(old, nxt) { document.getElementById(old).classList.add('hidden'); document.getElementById(nxt).classList.remove('hidden'); }
         function initApp() {
             uName = document.getElementById('in-name').value;
