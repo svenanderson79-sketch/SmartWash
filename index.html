@@ -128,3 +128,57 @@
                 <div class="time-btn selected" onclick="selTi(this)">14:00</div>
                 <div class="time-btn" onclick="selTi(this)">17:00</div>
             </div>
+
+            <button class="btn btn-main" style="margin-top:30px; box-shadow: 0 8px 20px rgba(255,107,0,0.3);" onclick="doBook()">Broneeri ja maksa</button>
+        </div>
+    </div>
+
+    <div id="ticket-layer">
+        <div class="receipt-card">
+            <h1 style="color:var(--success)">Kinnitatud!</h1>
+            <div style="font-size:60px; margin:20px;">🧼</div>
+            <div id="summary" style="line-height:1.6; font-size:16px; margin-bottom:20px;"></div>
+            <div class="code-display">SW-99281</div>
+            
+            <button class="btn btn-nav" onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(sAddr))">📍 Ava teekond kaardil</button>
+            <button class="btn" style="background:#eee; color:#333;" onclick="document.getElementById('ticket-layer').style.display='none'">Tagasi äppi</button>
+            
+            <div style="margin-top:40px; border-top:1px dashed #ccc; padding-top:30px;">
+                <p style="font-size:13px; color:#888;">Vajadusel tühista broneering siit:</p>
+                <button class="btn" style="background:#fff0f0; color:var(--danger); border:1px solid var(--danger); font-size:14px;" onclick="location.reload()">Tühista broneering</button>
+                <p style="font-size:11px; color:var(--danger); font-weight:bold; margin-top:8px;">Tagasimakse: 9.00€ (50%)</p>
+            </div>
+        </div>
+        <div style="height:50px;"></div> </div>
+
+    <script>
+        let sName='Ülejõe Circle K', sAddr='Ehitajate tee 4', sProg='Premium Pro', sTime='14:00';
+        let uName='', uPlate='';
+
+        function to(oldId, newId) { document.getElementById(oldId).classList.add('hidden'); document.getElementById(newId).classList.remove('hidden'); }
+        
+        function initApp() {
+            uName = document.getElementById('in-name').value;
+            uPlate = document.getElementById('in-plate').value || 'ABC-123';
+            document.getElementById('user-greet').innerText = `Tere, ${uName}!`;
+            to('step4', 'app');
+        }
+
+        function cityChange() {
+            const c = document.getElementById('city-sel').value;
+            document.getElementById('p-loc').classList.toggle('hidden', c!=='p');
+            document.getElementById('t-loc').classList.toggle('hidden', c!=='t');
+        }
+
+        function selSt(el, n, a) { document.querySelectorAll('.st').forEach(x=>x.classList.remove('active')); el.classList.add('active'); sName=n; sAddr=a; }
+        function selPr(el, n) { document.querySelectorAll('.pr').forEach(x=>x.classList.remove('active')); el.classList.add('active'); sProg=n; }
+        function selTi(el) { document.querySelectorAll('.time-btn').forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); sTime=el.innerText; }
+
+        function doBook() {
+            document.getElementById('summary').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br><b>${sProg}</b><br>Täna kell ${sTime}<br>Auto: <b>${uPlate.toUpperCase()}</b>`;
+            document.getElementById('ticket-layer').style.display = 'block';
+            document.getElementById('ticket-layer').scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>
