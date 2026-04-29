@@ -25,7 +25,7 @@
         input { background: #f0f0f0; border: none; padding: 18px; border-radius: 12px; font-size: 16px; margin-bottom: 15px; width: 100%; box-sizing: border-box; outline: none; }
         input:focus { background: #e8e8e8; box-shadow: 0 0 0 2px var(--primary); }
 
-        .btn { padding: 18px; border-radius: 15px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; width: 100%; }
+        .btn { padding: 18px; border-radius: 15px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; width: 100%; display: block; text-align: center; text-decoration: none; box-sizing: border-box; }
         .btn-main { background: var(--primary); color: white; margin-top: auto; }
         .btn-main:active { transform: scale(0.98); opacity: 0.9; }
 
@@ -40,31 +40,26 @@
         .car-info p { margin: 2px 0 0; font-size: 14px; color: #999; }
         .status-badge { background: #e8f9ee; color: var(--success); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; position: absolute; right: 20px; }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
-        .action-card { background: white; padding: 20px; border-radius: 20px; border: 1px solid #eee; text-align: center; }
-        .action-card i { font-size: 24px; display: block; margin-bottom: 10px; }
-
-        .ticket-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: none; padding: 20px; box-sizing: border-box; }
-        .ticket { background: white; border-radius: 25px; padding: 30px; position: relative; max-width: 400px; margin: 40px auto; text-align: center; overflow: hidden; }
-        .ticket::before { content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 30px; height: 30px; background: rgba(0,0,0,0.8); border-radius: 50%; }
-        .qr-placeholder { width: 200px; height: 200px; background: #f0f0f0; margin: 20px auto; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 10px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .ticket-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 3000; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .ticket { text-align: center; max-width: 400px; margin: 0 auto; }
+        .qr-placeholder { width: 180px; height: 180px; background: white; margin: 20px auto; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px solid #eee; }
         
         .prog-list { padding: 0 20px; margin-top: 20px; }
-        .pr { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 2px solid transparent; display: flex; justify-content: space-between; align-items: center; }
+        .pr { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 2px solid transparent; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .pr.active { border-color: var(--primary); background: #fff9f5; }
         .pr b { display: block; font-size: 16px; }
         .pr span { color: #888; font-size: 13px; }
         .price { font-weight: 800; color: var(--primary); font-size: 18px; }
 
-        .time-select { padding: 0 20px; margin-bottom: 100px; }
+        .time-select { padding: 0 20px; margin-bottom: 120px; }
         .days { display: flex; gap: 10px; margin-bottom: 15px; }
-        .day { flex: 1; padding: 12px; background: white; border-radius: 12px; text-align: center; font-weight: 600; border: 1px solid #eee; }
+        .day { flex: 1; padding: 12px; background: white; border-radius: 12px; text-align: center; font-weight: 600; border: 1px solid #eee; cursor: pointer; }
         .day.selected { background: var(--primary); color: white; border-color: var(--primary); }
         .times { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .ti { padding: 10px; background: white; border-radius: 10px; text-align: center; font-size: 14px; border: 1px solid #eee; }
+        .ti { padding: 10px; background: white; border-radius: 10px; text-align: center; font-size: 14px; border: 1px solid #eee; cursor: pointer; }
         .ti.selected { background: #333; color: white; }
 
-        select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee; font-size: 16px; margin-bottom: 15px; outline: none; }
+        select { width: calc(100% - 40px); margin: 0 20px 15px; padding: 15px; border-radius: 12px; border: 1px solid #eee; font-size: 16px; outline: none; background: white; }
     </style>
 </head>
 <body>
@@ -90,14 +85,12 @@
         <h1>Kontaktandmed</h1>
         <p>Saadame Sulle kviitungid ja olulised teavitused e-posti teel.</p>
         <input type="email" id="setup-email" placeholder="E-post (kviitungite jaoks)">
-        
         <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: flex-start; text-align: left;">
             <input type="checkbox" id="setup-gdpr" style="width: 25px; height: 25px; margin: 0; cursor: pointer;">
             <label for="setup-gdpr" style="font-size: 13px; color: #666; line-height: 1.2;">
                 Nõustun, et SmartWash Pro töötleb minu isikuandmeid (nimi, e-post, autonumber) teenuse pakkumiseks ja maksete teostamiseks.
             </label>
         </div>
-
         <button class="btn btn-main" onclick="goToStep4()">Jätka</button>
     </div>
 
@@ -123,15 +116,22 @@
             <div class="car-icon">🚗</div>
             <div class="car-info">
                 <h3 id="display-car">777 BML</h3>
-                <p>Tesla Model 3 • Must</p>
+                <p>Auto on pesuks valmis</p>
             </div>
             <div class="status-badge">Aktiivne</div>
         </div>
 
         <div style="padding: 0 20px; margin-bottom: 15px; font-weight: 700;">Vali pesula</div>
         <select id="addr-select" onchange="sAddr=this.value">
-            <option>Pärnu, Ülejõe (Circle K)</option>
-            <option>Pärnu, Papiniidu (Circle K)</option>
+            <optgroup label="Pärnu">
+                <option>Pärnu, Ülejõe (Circle K)</option>
+                <option>Pärnu, Papiniidu (Circle K)</option>
+            </optgroup>
+            <optgroup label="Tallinn">
+                <option>Tallinn, Järve (Circle K)</option>
+                <option>Tallinn, Lauluväljaku (Circle K)</option>
+                <option>Tallinn, Mustamäe (Circle K)</option>
+            </optgroup>
         </select>
 
         <div style="padding: 0 20px; margin-bottom: 10px; font-weight: 700;">Vali programm</div>
@@ -164,26 +164,30 @@
             </div>
         </div>
 
-        <div style="position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px; background: white; border-top: 1px solid #eee; box-sizing: border-box;">
+        <div style="position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px; background: white; border-top: 1px solid #eee; box-sizing: border-box; z-index: 100;">
             <button class="btn btn-main" onclick="finish()" style="margin: 0;">Broneeri pesu</button>
         </div>
     </div>
 
     <div id="ticket" class="ticket-overlay">
         <div class="ticket">
-            <div style="color: var(--success); font-size: 40px; margin-bottom: 10px;">✓</div>
-            <h2>Pesu broneeritud!</h2>
-            <div id="res-info" style="margin: 20px 0; line-height: 1.6; color: #444;"></div>
+            <div style="color: var(--success); font-size: 60px; margin: 20px 0 10px;">✓</div>
+            <h2 style="font-size: 24px; margin-bottom: 5px;">Pesu broneeritud!</h2>
+            <p style="color: #888; font-size: 14px;">Sinu pilet on aktiveeritud</p>
             
             <div class="qr-placeholder">
-                <div style="text-align: center;">
-                    <div style="font-size: 40px;">📱</div>
-                    <div style="font-size: 10px; color: #999; margin-top: 5px;">QR KOOD</div>
-                </div>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SmartWash_Ticket" alt="QR">
             </div>
             
-            <p id="refund-text" style="font-size: 12px; color: #999; margin-top: 20px;"></p>
-            <button class="btn" onclick="closeTicket()" style="background: #f0f0f0; margin-top: 20px;">Sule</button>
+            <div id="res-info" style="margin: 20px 0; line-height: 1.6; text-align: left; background: #f9f9f9; padding: 20px; border-radius: 15px; font-size: 15px; color: #444;"></div>
+            
+            <a href="https://www.google.com/maps" target="_blank" class="btn" style="background: #007aff; color: white; margin-bottom: 10px;">📍 Navigeeri pesulasse</a>
+            
+            <button class="btn" onclick="if(confirm('Kas soovid broneeringu tühistada?')) closeTicket()" style="background: white; color: var(--danger); border: 1px solid var(--danger); margin-bottom: 10px;">Tühista broneering</button>
+            
+            <button class="btn" onclick="closeTicket()" style="background: #f0f0f0; color: #333;">Tagasi avalehele</button>
+            
+            <p id="refund-text" style="font-size: 11px; color: #999; margin-top: 20px;"></p>
         </div>
     </div>
 
@@ -207,10 +211,7 @@
 
         function goToStep4() {
             if(!document.getElementById('setup-email').value) return alert("Sisesta e-post!");
-            
-            // KONTROLL, ET LINNUKE OLEKS OLEMAS
             if(!document.getElementById('setup-gdpr').checked) return alert("Jätkamiseks pead nõustuma andmekaitse tingimustega!");
-
             document.getElementById('step3').classList.add('hidden');
             document.getElementById('step4').classList.remove('hidden');
         }
@@ -238,10 +239,15 @@
         }
 
         function finish() {
-            if(!sName || !sProg || !sTime) return alert("Vali kõik andmed!");
-            // KASUTAME display-car ELEMENTI, ET SAAKSIME NUMBRI KÄTTE
+            if(!sProg || !sTime) return alert("Vali pesuprogramm ja aeg!");
             const car = document.getElementById('display-car').innerText;
-            document.getElementById('res-info').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br>${sProg}<br>${sDay} kell ${sTime}<br><br><b style="color:var(--primary)">Auto: ${car}</b>`;
+            document.getElementById('res-info').innerHTML = `
+                <b>Klient:</b> ${sName}<br>
+                <b>Auto:</b> ${car}<br>
+                <b>Asukoht:</b> ${sAddr}<br>
+                <b>Aeg:</b> ${sDay}, kell ${sTime}<br>
+                <b>Programm:</b> ${sProg}
+            `;
             document.getElementById('refund-text').innerText = `Tühistamisel tagastatakse 50% (${(sPrice/2).toFixed(2)}€) kontole.`;
             document.getElementById('ticket').style.display = 'block';
         }
