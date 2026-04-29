@@ -14,52 +14,45 @@
         :root { --primary: #ff6b00; --bg: #f8f9fa; --danger: #ff3b30; --success: #34c759; }
         body { margin: 0; font-family: -apple-system, sans-serif; background: var(--bg); color: #333; -webkit-tap-highlight-color: transparent; }
         
-        .setup-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: flex; flex-direction: column; padding: 40px 30px; box-sizing: border-box; }
+        .setup-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; display: flex; flex-direction: column; padding: 40px 30px; box-sizing: border-box; overflow-y: auto; }
         .progress-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #eee; }
         .dot.active { background: var(--primary); width: 20px; border-radius: 4px; }
 
         h1 { font-size: 28px; margin: 0 0 10px 0; font-weight: 800; }
-        p { color: #666; margin-bottom: 30px; line-height: 1.4; }
+        p { color: #666; margin-bottom: 20px; line-height: 1.4; }
 
         input { background: #f0f0f0; border: none; padding: 18px; border-radius: 12px; font-size: 16px; margin-bottom: 15px; width: 100%; box-sizing: border-box; outline: none; }
         input:focus { background: #e8e8e8; box-shadow: 0 0 0 2px var(--primary); }
 
-        .btn { padding: 18px; border-radius: 15px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; width: 100%; display: block; text-align: center; text-decoration: none; box-sizing: border-box; }
+        .btn { padding: 18px; border-radius: 15px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; width: 100%; text-align: center; display: block; text-decoration: none; box-sizing: border-box; }
         .btn-main { background: var(--primary); color: white; margin-top: auto; }
-        .btn-main:active { transform: scale(0.98); opacity: 0.9; }
-
+        
         .hidden { display: none !important; }
 
         header { padding: 50px 20px 20px; background: white; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; }
         .logo { font-weight: 900; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap: 5px; }
         
-        .car-card { background: white; margin: 20px; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; position: relative; }
-        .car-icon { width: 60px; height: 60px; background: #fff5ee; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
-        .car-info h3 { margin: 0; font-size: 18px; }
-        .car-info p { margin: 2px 0 0; font-size: 14px; color: #999; }
-        .status-badge { background: #e8f9ee; color: var(--success); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; position: absolute; right: 20px; }
-
+        .car-card { background: white; margin: 20px; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        
         .ticket-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 3000; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .ticket { text-align: center; max-width: 400px; margin: 0 auto; }
         .qr-placeholder { width: 180px; height: 180px; background: white; margin: 20px auto; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px solid #eee; }
         
-        .prog-list { padding: 0 20px; margin-top: 20px; }
+        .prog-list { padding: 0 20px; }
         .pr { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 2px solid transparent; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .pr.active { border-color: var(--primary); background: #fff9f5; }
-        .pr b { display: block; font-size: 16px; }
-        .pr span { color: #888; font-size: 13px; }
         .price { font-weight: 800; color: var(--primary); font-size: 18px; }
 
         .time-select { padding: 0 20px; margin-bottom: 120px; }
         .days { display: flex; gap: 10px; margin-bottom: 15px; }
-        .day { flex: 1; padding: 12px; background: white; border-radius: 12px; text-align: center; font-weight: 600; border: 1px solid #eee; cursor: pointer; }
-        .day.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .day { flex: 1; padding: 12px; background: white; border-radius: 12px; text-align: center; border: 1px solid #eee; cursor: pointer; }
+        .day.selected { background: var(--primary); color: white; }
         .times { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .ti { padding: 10px; background: white; border-radius: 10px; text-align: center; font-size: 14px; border: 1px solid #eee; cursor: pointer; }
         .ti.selected { background: #333; color: white; }
 
-        select { width: calc(100% - 40px); margin: 0 20px 15px; padding: 15px; border-radius: 12px; border: 1px solid #eee; font-size: 16px; outline: none; background: white; }
+        select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee; font-size: 16px; margin-bottom: 15px; outline: none; background: white; }
     </style>
 </head>
 <body>
@@ -67,29 +60,27 @@
     <div id="step1" class="setup-screen">
         <div class="progress-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         <h1>Tere tulemast!</h1>
-        <p>Muudame Sinu auto pesemise mugavaks ja kiireks. Alustuseks seadistame Sinu konto.</p>
+        <p>Alustuseks seadistame Sinu konto.</p>
         <input type="text" id="setup-name" placeholder="Sinu nimi">
         <button class="btn btn-main" onclick="goToStep2()">Alusta</button>
     </div>
 
     <div id="step2" class="setup-screen hidden">
         <div class="progress-dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
-        <h1>Auto andmed</h1>
-        <p>Lisa oma auto numbrimärk, et pesula tunneks Sind automaatselt ära.</p>
-        <input type="text" id="setup-car" placeholder="Auto numbrimärk (nt 123 ABC)" style="text-transform: uppercase;">
+        <h1>Sinu autod</h1>
+        <p>Lisa kuni kaks autonumbrit.</p>
+        <input type="text" id="setup-car1" placeholder="Auto 1 numbrimärk" style="text-transform: uppercase;">
+        <input type="text" id="setup-car2" placeholder="Auto 2 numbrimärk (valikuline)" style="text-transform: uppercase;">
         <button class="btn btn-main" onclick="goToStep3()">Jätka</button>
     </div>
 
     <div id="step3" class="setup-screen hidden">
         <div class="progress-dots"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
-        <h1>Kontaktandmed</h1>
-        <p>Saadame Sulle kviitungid ja olulised teavitused e-posti teel.</p>
-        <input type="email" id="setup-email" placeholder="E-post (kviitungite jaoks)">
-        <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: flex-start; text-align: left;">
-            <input type="checkbox" id="setup-gdpr" style="width: 25px; height: 25px; margin: 0; cursor: pointer;">
-            <label for="setup-gdpr" style="font-size: 13px; color: #666; line-height: 1.2;">
-                Nõustun, et SmartWash Pro töötleb minu isikuandmeid (nimi, e-post, autonumber) teenuse pakkumiseks ja maksete teostamiseks.
-            </label>
+        <h1>Andmekaitse</h1>
+        <input type="email" id="setup-email" placeholder="E-post kviitungite jaoks">
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: flex-start;">
+            <input type="checkbox" id="setup-gdpr" style="width: 25px; height: 25px; cursor: pointer;">
+            <label for="setup-gdpr" style="font-size: 13px; color: #666;">Nõustun, et SmartWash Pro töötleb minu isikuandmeid.</label>
         </div>
         <button class="btn btn-main" onclick="goToStep4()">Jätka</button>
     </div>
@@ -97,7 +88,7 @@
     <div id="step4" class="setup-screen hidden">
         <div class="progress-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
         <h1>Makseviis</h1>
-        <p>Lisa kaart automaatseteks makseteks. Sinu andmed on turvaliselt kaitstud.</p>
+        <input type="text" placeholder="Kaardi omaniku nimi" style="text-transform: uppercase;">
         <input type="text" placeholder="Kaardi number: **** **** **** 4421">
         <div style="display: flex; gap: 10px;">
             <input type="text" placeholder="KK / AA" style="flex: 1;">
@@ -107,65 +98,46 @@
     </div>
 
     <div id="main-app" class="hidden">
-        <header>
-            <div class="logo"><span>🧼</span> SmartWash Pro</div>
-            <div style="font-size: 20px;">🔔</div>
-        </header>
+        <header><div class="logo"><span>🧼</span> SmartWash Pro</div></header>
 
         <div class="car-card">
-            <div class="car-icon">🚗</div>
-            <div class="car-info">
-                <h3 id="display-car">777 BML</h3>
-                <p>Auto on pesuks valmis</p>
-            </div>
-            <div class="status-badge">Aktiivne</div>
+            <div style="font-weight: 700; margin-bottom: 10px;">Vali auto pesuks:</div>
+            <select id="car-select"></select>
         </div>
 
-        <div style="padding: 0 20px; margin-bottom: 15px; font-weight: 700;">Vali pesula</div>
-        <select id="addr-select" onchange="sAddr=this.value">
+        <div style="padding: 0 20px; font-weight: 700; margin-bottom: 10px;">Asukoht:</div>
+        <select id="addr-select" style="margin: 0 20px 15px; width: calc(100% - 40px);">
             <optgroup label="Pärnu">
-                <option>Pärnu, Ülejõe (Circle K)</option>
-                <option>Pärnu, Papiniidu (Circle K)</option>
+                <option value="Circle K Ülejõe, Pärnu">Pärnu, Ülejõe (Circle K)</option>
+                <option value="Circle K Papiniidu, Pärnu">Pärnu, Papiniidu (Circle K)</option>
             </optgroup>
             <optgroup label="Tallinn">
-                <option>Tallinn, Järve (Circle K)</option>
-                <option>Tallinn, Lauluväljaku (Circle K)</option>
-                <option>Tallinn, Mustamäe (Circle K)</option>
+                <option value="Circle K Järve, Tallinn">Tallinn, Järve (Circle K)</option>
+                <option value="Circle K Lauluväljaku, Tallinn">Tallinn, Lauluväljaku (Circle K)</option>
+                <option value="Circle K Mustamäe, Tallinn">Tallinn, Mustamäe (Circle K)</option>
             </optgroup>
         </select>
 
-        <div style="padding: 0 20px; margin-bottom: 10px; font-weight: 700;">Vali programm</div>
         <div class="prog-list">
-            <div class="pr" onclick="pickPr(this, 'Premium Pesu', 18)">
-                <div><b>Premium Pesu</b><span>Poleerimine + Vaha + Altpesu</span></div>
-                <div class="price">18€</div>
-            </div>
-            <div class="pr" onclick="pickPr(this, 'Tavapesu', 12)">
-                <div><b>Tavapesu</b><span>Harjapesu + Kuivatus</span></div>
-                <div class="price">12€</div>
-            </div>
+            <div class="pr" onclick="pickPr(this, 'Premium', 18)"><b>Premium Pesu</b><div class="price">18€</div></div>
+            <div class="pr" onclick="pickPr(this, 'Tavapesu', 12)"><b>Tavapesu</b><div class="price">12€</div></div>
         </div>
 
         <div class="time-select">
-            <div style="margin: 20px 0 10px; font-weight: 700;">Broneeri aeg</div>
             <div class="days">
                 <div id="d1" class="day selected" onclick="pickDay('Täna', 'd1')">Täna</div>
                 <div id="d2" class="day" onclick="pickDay('Homme', 'd2')">Homme</div>
             </div>
             <div class="times">
                 <div class="ti" onclick="pickTi(this, '14:00')">14:00</div>
-                <div class="ti" onclick="pickTi(this, '14:30')">14:30</div>
                 <div class="ti" onclick="pickTi(this, '15:00')">15:00</div>
-                <div class="ti" onclick="pickTi(this, '15:30')">15:30</div>
                 <div class="ti" onclick="pickTi(this, '16:00')">16:00</div>
-                <div class="ti" onclick="pickTi(this, '16:30')">16:30</div>
                 <div class="ti" onclick="pickTi(this, '17:00')">17:00</div>
-                <div class="ti" onclick="pickTi(this, '17:30')">17:30</div>
             </div>
         </div>
 
-        <div style="position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px; background: white; border-top: 1px solid #eee; box-sizing: border-box; z-index: 100;">
-            <button class="btn btn-main" onclick="finish()" style="margin: 0;">Broneeri pesu</button>
+        <div style="position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px; background: white; border-top: 1px solid #eee; z-index: 100;">
+            <button class="btn btn-main" onclick="finish()">Broneeri pesu</button>
         </div>
     </div>
 
@@ -173,45 +145,43 @@
         <div class="ticket">
             <div style="color: var(--success); font-size: 60px; margin: 20px 0 10px;">✓</div>
             <h2 style="font-size: 24px; margin-bottom: 5px;">Pesu broneeritud!</h2>
-            <p style="color: #888; font-size: 14px;">Sinu pilet on aktiveeritud</p>
+            <div class="qr-placeholder"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SmartWash" alt="QR"></div>
+            <div id="res-info" style="margin: 20px 0; text-align: left; background: #f9f9f9; padding: 20px; border-radius: 15px; color: #444; line-height: 1.6;"></div>
             
-            <div class="qr-placeholder">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SmartWash_Ticket" alt="QR">
-            </div>
-            
-            <div id="res-info" style="margin: 20px 0; line-height: 1.6; text-align: left; background: #f9f9f9; padding: 20px; border-radius: 15px; font-size: 15px; color: #444;"></div>
-            
-            <a href="https://www.google.com/maps" target="_blank" class="btn" style="background: #007aff; color: white; margin-bottom: 10px;">📍 Navigeeri pesulasse</a>
+            <a id="nav-link" href="#" target="_blank" class="btn" style="background: #007aff; color: white; margin-bottom: 10px;">📍 Navigeeri pesulasse</a>
             
             <button class="btn" onclick="if(confirm('Kas soovid broneeringu tühistada?')) closeTicket()" style="background: white; color: var(--danger); border: 1px solid var(--danger); margin-bottom: 10px;">Tühista broneering</button>
             
-            <button class="btn" onclick="closeTicket()" style="background: #f0f0f0; color: #333;">Tagasi avalehele</button>
+            <button class="btn" onclick="closeTicket()" style="background: #f0f0f0;">Tagasi avalehele</button>
             
             <p id="refund-text" style="font-size: 11px; color: #999; margin-top: 20px;"></p>
         </div>
     </div>
 
     <script>
-        let sName, sAddr = "Pärnu, Ülejõe (Circle K)", sProg, sPrice, sDay = "Täna", sTime;
+        let sName, sProg, sPrice, sDay = "Täna", sTime;
 
         function goToStep2() {
             sName = document.getElementById('setup-name').value;
-            if(!sName) return alert("Palun sisesta nimi!");
+            if(!sName) return alert("Sisesta nimi!");
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
         }
 
         function goToStep3() {
-            const car = document.getElementById('setup-car').value;
-            if(!car) return alert("Sisesta autonumber!");
-            document.getElementById('display-car').innerText = car.toUpperCase();
+            const c1 = document.getElementById('setup-car1').value;
+            if(!c1) return alert("Sisesta vähemalt üks auto!");
+            const sel = document.getElementById('car-select');
+            sel.innerHTML = `<option>${c1.toUpperCase()}</option>`;
+            const c2 = document.getElementById('setup-car2').value;
+            if(c2) sel.innerHTML += `<option>${c2.toUpperCase()}</option>`;
             document.getElementById('step2').classList.add('hidden');
             document.getElementById('step3').classList.remove('hidden');
         }
 
         function goToStep4() {
             if(!document.getElementById('setup-email').value) return alert("Sisesta e-post!");
-            if(!document.getElementById('setup-gdpr').checked) return alert("Jätkamiseks pead nõustuma andmekaitse tingimustega!");
+            if(!document.getElementById('setup-gdpr').checked) return alert("Nõustu tingimustega!");
             document.getElementById('step3').classList.add('hidden');
             document.getElementById('step4').classList.remove('hidden');
         }
@@ -239,16 +209,15 @@
         }
 
         function finish() {
-            if(!sProg || !sTime) return alert("Vali pesuprogramm ja aeg!");
-            const car = document.getElementById('display-car').innerText;
-            document.getElementById('res-info').innerHTML = `
-                <b>Klient:</b> ${sName}<br>
-                <b>Auto:</b> ${car}<br>
-                <b>Asukoht:</b> ${sAddr}<br>
-                <b>Aeg:</b> ${sDay}, kell ${sTime}<br>
-                <b>Programm:</b> ${sProg}
-            `;
+            if(!sProg || !sTime) return alert("Vali pesu ja aeg!");
+            const car = document.getElementById('car-select').value;
+            const addrValue = document.getElementById('addr-select').value;
+            const addrText = document.getElementById('addr-select').options[document.getElementById('addr-select').selectedIndex].text;
+            
+            document.getElementById('res-info').innerHTML = `<b>Auto:</b> ${car}<br><b>Asukoht:</b> ${addrText}<br><b>Aeg:</b> ${sDay} kell ${sTime}<br><b>Programm:</b> ${sProg}`;
             document.getElementById('refund-text').innerText = `Tühistamisel tagastatakse 50% (${(sPrice/2).toFixed(2)}€) kontole.`;
+            document.getElementById('nav-link').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addrValue)}`;
+            
             document.getElementById('ticket').style.display = 'block';
         }
 
