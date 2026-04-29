@@ -207,7 +207,10 @@
 
         function goToStep4() {
             if(!document.getElementById('setup-email').value) return alert("Sisesta e-post!");
+            
+            // KONTROLL, ET LINNUKE OLEKS OLEMAS
             if(!document.getElementById('setup-gdpr').checked) return alert("Jätkamiseks pead nõustuma andmekaitse tingimustega!");
+
             document.getElementById('step3').classList.add('hidden');
             document.getElementById('step4').classList.remove('hidden');
         }
@@ -236,6 +239,7 @@
 
         function finish() {
             if(!sName || !sProg || !sTime) return alert("Vali kõik andmed!");
+            // KASUTAME display-car ELEMENTI, ET SAAKSIME NUMBRI KÄTTE
             const car = document.getElementById('display-car').innerText;
             document.getElementById('res-info').innerHTML = `<b>${sName}</b><br>${sAddr}<br><br>${sProg}<br>${sDay} kell ${sTime}<br><br><b style="color:var(--primary)">Auto: ${car}</b>`;
             document.getElementById('refund-text').innerText = `Tühistamisel tagastatakse 50% (${(sPrice/2).toFixed(2)}€) kontole.`;
